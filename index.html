@@ -12,6 +12,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <style>
+            *{
+                font-family: Rubik, sans-serif;
+            }
             body{
                 padding-top: 56px;
                 background-color: blueviolet;
@@ -30,20 +33,23 @@
                 font-size: 1.25rem;
             }
             .homepage-bg{
+                position: relative;
                 background-color: black;
                 background-size: cover;
                 text-align: center;
                 padding: 8rem 2rem;
-                color: white;
+                color: #ffffff;
+                font-weight: bold;
+                text-shadow: 3px 3px 5px rgba(0 , 0, 0, 0.8)
             }
         </style>
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-xl bg-light navbar-light justify-content-right fixed-top">
+        <nav class="navbar navbar-expand bg-light navbar-light justify-content-right fixed-top">
             <div class="container-fluid">
                 <span class="navbar-text">EasyNote</span>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav d-flex">
                     <li class="nav-item">
                         <a class="nav-link" href="#StartNotes">Start Notes</a>
                     </li>
