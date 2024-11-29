@@ -214,12 +214,25 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Simulate login check (e.g., username = 'user', password = 'password')
-            if (username === 'user' && password === 'password') {
-                window.location.href = `userHomepage.html?username=${username}`;
-            } else {
-                alert("Invalid username or password. Please try again.");
-            }
+            fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username, password})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token){
+                    localStorage.setItem('authToken', data.access_token);
+                    window.location.href = 'userHomepage.html';
+                } else {
+                    alert(data.msg || 'Login failed.');
+                }
+            }).catch(error => {
+                console.error('Error', error);
+                alert('Login Error');
+            });
         });
 
         // Handle registration form submission
@@ -229,12 +242,24 @@
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (newPassword === confirmPassword) {
-                // Simulate registration success
-                window.location.href = `userHomepage.html?username=${newUsername}`;
-            } else {
-                alert("Passwords do not match. Please try again.");
-            }
+            fetch('http://localhost:5000/api/registration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'applicatoin/json',
+                },
+                body: JSON.stringify({newUsername, newPassword})
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.msg);
+                if(data.msg === "User registered successfully."){
+                    window.location.href = 'index.html';
+                }
+            }).catch (error => {
+                console.error('Error', error);
+                alert('Registration error');
+            });
+
         });
     </script>
 </body>
