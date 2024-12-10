@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Notes</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .note-card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-4">Your Past Notes</h1>
+
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" id="filterName" class="form-control" placeholder="Filter by name">
+            </div>
+            <div class="col-md-6">
+                <input type="date" id="filterDate" class="form-control" placeholder="Filter by date">
+            </div>
+        </div>
+
+        <!-- Notification for No Notes -->
+        <div id="noNotesMessage" class="alert alert-warning d-none text-center">
+            No Notes Created
+        </div>
+
+        <!-- Notes List -->
+        <div id="notesList">
+            <!-- Sample Note Cards (This should be dynamically generated using JavaScript or server-side logic) -->
+            <div class="card note-card">
+                <div class="card-body">
+                    <h5 class="card-title">Note Title 1</h5>
+                    <p class="card-text">This is the content of the first note. You can add more details here.</p>
+                    <p class="text-muted">Created on: 2024-12-01</p>
+                    <button class="btn btn-danger btn-sm delete-note" data-note-id="1">Delete</button>
+                </div>
+            </div>
+
+            <div class="card note-card">
+                <div class="card-body">
+                    <h5 class="card-title">Note Title 2</h5>
+                    <p class="card-text">This is the content of the second note. You can add more details here.</p>
+                    <p class="text-muted">Created on: 2024-12-05</p>
+                    <button class="btn btn-danger btn-sm delete-note" data-note-id="2">Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+    <script>
+        // Example Notes Data (This should be dynamically generated or fetched from a database)
+        const notes = [
+            { id: 1, title: "Note Title 1", content: "This is the content of the first note.", date: "2024-12-01" },
+            { id: 2, title: "Note Title 2", content: "This is the content of the second note.", date: "2024-12-05" },
+            // Add more notes here if needed
+        ];
+
+        const notesListElement = document.getElementById('notesList');
+        const noNotesMessage = document.getElementById('noNotesMessage');
+        const filterNameInput = document.getElementById('filterName');
+        const filterDateInput = document.getElementById('filterDate');
+
+        // Function to render notes
+        function renderNotes() {
+            notesListElement.innerHTML = ''; // Clear current notes
+
+            const filteredNotes = notes.filter(note => {
+                const nameFilter = filterNameInput.value.toLowerCase();
+                const dateFilter = filterDateInput.value;
+                return note.title.toLowerCase().includes(nameFilter) &&
+                    (!dateFilter || note.date === dateFilter);
+            });
+
+            if (filteredNotes.length === 0) {
+                noNotesMessage.classList.remove('d-none');
+            } else {
+                noNotesMessage.classList.add('d-none');
+                filteredNotes.forEach(note => {
+                    const noteCard = document.createElement('div');
+                    noteCard.classList.add('card', 'note-card');
+                    noteCard.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${note.title}</h5>
+                            <p class="card-text">${note.content}</p>
+                            <p class="text-muted">Created on: ${note.date}</p>
+                            <button class="btn btn-danger btn-sm delete-note" data-note-id="${note.id}">Delete</button>
+                        </div>
+                    `;
+                    notesListElement.appendChild(noteCard);
+                });
+            }
+        }
+
+        // Function to handle note deletion
+        function deleteNote(noteId) {
+            const noteIndex = notes.findIndex(note => note.id === noteId);
+            if (noteIndex > -1) {
+                notes.splice(noteIndex, 1); // Remove note from the array
+                renderNotes(); // Re-render the notes
+            }
+        }
+
+        // Event listener for deleting notes
+        notesListElement.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-note')) {
+                const noteId = parseInt(e.target.getAttribute('data-note-id'));
+                deleteNote(noteId);
+            }
+        });
+
+        // Event listeners for filters
+        filterNameInput.addEventListener('input', renderNotes);
+        filterDateInput.addEventListener('input', renderNotes);
+
+        // Initial render of notes
+        renderNotes();
+    </script>
+</body>
+</html>
