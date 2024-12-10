@@ -57,7 +57,7 @@
             <span class="navbar-text">EasyNote</span>
             <ul class="navbar-nav d-flex">
                 <li class="nav-item">
-                    <a class="nav-link" href="#StartNotes">Start Notes</a>
+                    <a class="nav-link" href="settings.html">Settings</a>
                 </li>
                 <!-- Sign In link triggers modal -->
                 <li class="nav-item">
@@ -124,36 +124,35 @@
     </div>
 
     <!-- Register Modal Content (hidden initially) -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modalBody">
-                    <!-- Registration Form -->
-                    <form id="registerForm">
-                        <div class="mb-3">
-                            <label for="newUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="newUsername" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="newPassword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Register</button>
-                    </form>
-                    <p class="mt-2 text-center">Already have an account? <a href="#" id="showLogin">Sign In</a></p>
-                </div>
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Registration Form -->
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="newUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="newUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="newPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+                <p class="mt-2 text-center">Already have an account? <a href="#" id="showLogin">Sign In</a></p>
             </div>
         </div>
     </div>
-
+</div>
     <script>
         // Register Form in Modal
         document.getElementById('showRegister').addEventListener('click', function(event) {
@@ -242,18 +241,18 @@
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-            fetch('http://localhost:5000/api/registration', {
+            fetch('http://localhost:5000/api/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'applicatoin/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({newUsername, newPassword})
+                body: JSON.stringify({username:newUsername, password:newPassword})
             })
             .then(response => response.json())
             .then(data => {
                 alert(data.msg);
                 if(data.msg === "User registered successfully."){
-                    window.location.href = 'index.html';
+                    window.location.href = 'userHomepage.html';
                 }
             }).catch (error => {
                 console.error('Error', error);

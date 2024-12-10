@@ -1,44 +1,14 @@
 colors = [
-  '#FF9797',
-  '#FFC76D',
-  '#FFFF81',
-  '#A6FF7F',
-  '#9DFFFF',
-  '#9BDCFF',
-  '#ADB4FF',
-  '#EE99FF',
-  '#FFB0F3',
-  '#FF0000',
-  '#FF9D00',
-  '#FFFF00',
-  '#4DFF00',
-  '#00FFFF',
-  '#00A6FF',
-  '#1E00FF',
-  '#D400FF',
-  '#FF00D9',
-  '#C60000',
-  '#C37800',
-  '#B9B900',
-  '#33AA00',
-  '#00A2A2',
-  '#006DBB',
-  '#1400AD',
-  '#9200B0',
-  '#A20089'
+  '#FF9797', '#FFC76D', '#FFFF81', '#A6FF7F', '#9DFFFF', '#9BDCFF', '#ADB4FF', '#EE99FF', '#FFB0F3', '#FF0000',
+  '#FF9D00', '#FFFF00', '#4DFF00', '#00FFFF', '#00A6FF', '#1E00FF', '#D400FF', '#FF00D9', '#C60000', '#C37800',
+  '#B9B900', '#33AA00', '#00A2A2', '#006DBB', '#1400AD', '#9200B0', '#A20089'
 ];
 
 grayColors = [
-  '#000000',
-  '#6A6A6A',
-  '#A09E9E',
-  '#C7C7C7',
-  '#E9E7E7',
-  '#FFFFFF',
+  '#000000', '#6A6A6A', '#A09E9E', '#C7C7C7', '#E9E7E7', '#FFFFFF'
 ]
 
 const colorsContainers = document.getElementsByClassName('colors-container');
-
 for (let container of colorsContainers) {
   for (let i = 0; i < colors.length; i++) {
     const button = document.createElement('button');
@@ -48,7 +18,6 @@ for (let container of colorsContainers) {
 }
 
 const grayColorsContainers = document.getElementsByClassName('gray-colors-container');
-
 for (let container of grayColorsContainers) {
   for (let i = 0; i < grayColors.length; i++) {
     const button = document.createElement('button');
@@ -92,20 +61,18 @@ summaryText = "This is the summary of the text";
 overlay = document.getElementById("overlay");
 
 summarizePopup = document.getElementById("summarize-pop-up");
-summarizeText = document.getElementById("summarize-text")
+summarizeText = document.getElementById("summarize-text");
 
 finalSummaryPopup = document.getElementById("final-summary-pop-up");
 finalSummaryText = document.getElementById("final-summary-text");
 
-function openSummarizePopup()
-{
+function openSummarizePopup() {
   showSelectedText();
   overlay.style.display = "block";
   summarizePopup.style.display = "flex";
 }
 
-function closeSummarizePopup()
-{
+function closeSummarizePopup() {
   overlay.style.display = "none";
   summarizePopup.style.display = "none";
   finalSummaryPopup.style.display = "none";
@@ -116,52 +83,60 @@ const finalSummaryPopupTabs = document.querySelectorAll('#final-summary-pop-up .
 
 summarizePopupTabs.forEach(button => {
   button.addEventListener('click', () => {
-    // Remove the 'active' class from all buttons
     summarizePopupTabs.forEach(btn => btn.classList.remove('active'));
-
-    // Add the 'active' class to the clicked button
     button.classList.add('active');
   });
 });
 
 finalSummaryPopupTabs.forEach(button => {
   button.addEventListener('click', () => {
-    // Remove the 'active' class from all buttons
     finalSummaryPopupTabs.forEach(btn => btn.classList.remove('active'));
-
-    // Add the 'active' class to the clicked button
     button.classList.add('active');
   });
 });
 
-function showSelectedText() 
-{
+function showSelectedText() {
   summarizeText.innerText = textToSummarize;
 }
 
-function showAllText() 
-{
+function showAllText() {
   summarizeText.innerText = textToSummarize;
 }
 
-function showPasteTextbox() 
-{
+function showPasteTextbox() {
   summarizeText.innerText = textToSummarize;
 }
 
-function goToFinalSummary()
-{
-  summarizePopup.style.display = "none";
-  finalSummaryPopup.style.display = "flex";
-  showSummary();
+function goToFinalSummary() {
+  // Send the request to the backend
+  fetchSummary(textToSummarize);
 }
 
-function showSummary()
-{
+function showSummary() {
   finalSummaryText.innerText = summaryText;
 }
 
-function showOriginalText()
-{
+function showOriginalText() {
   finalSummaryText.innerText = textToSummarize;
+}
+
+// Function to fetch summary from the Python backend
+function fetchSummary(text) {
+  fetch('http://localhost:5000/summarize', {
+    method: 'POST', // POST method to send data
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text: text }), // Send the text to be summarized
+  })
+  .then(response => response.json())
+  .then(data => {
+    // When the response is received, update the final summary text
+    finalSummaryText.innerText = data.summary;
+    summarizePopup.style.display = "none"; // Close the summarize popup
+    finalSummaryPopup.style.display = "flex"; // Show the final summary popup
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }

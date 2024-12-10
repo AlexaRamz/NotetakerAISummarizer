@@ -6,9 +6,9 @@ import os
 
 # Initialize app and extensions
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # You can use PostgreSQL or MySQL here if preferred
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'your_secret_key'  # Change this to a secret key of your choice
+app.config['JWT_SECRET_KEY'] = 'your_secret_key'  
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -41,7 +41,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     
-    return jsonify({"msg": "User registered successfully!"}), 201
+    return jsonify({"msg": "User registered successfully."}), 201
 
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
