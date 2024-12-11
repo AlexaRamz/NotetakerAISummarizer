@@ -1,18 +1,17 @@
+import os
 from flask import Flask, request, jsonify, redirect, url_for, render_template
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_wtf.csrf import CSRFProtect
 from summarizer import Summarizer
 
 # Initialize app and extensions
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'your_secret_key'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
 
 # Create a User model
 class User(db.Model):
@@ -27,21 +26,27 @@ summarizer_model = Summarizer()
 with app.app_context():
     db.create_all()
 
-# Register endpoint
-@app.route('/api/register', methods=['POST'])
-def register():
-    data = request.get_json()
-    
-    if User.query.filter_by(username=data['username']).first():
-        return jsonify({"msg": "Username already exists!"}), 400
-    
-    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_user = User(username=data['username'], password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    
-    # Redirect to user homepage after successful registration
-    return redirect(url_for('user_homepage', username=data['username']))
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        data = request.get_json()
+
+        # Check if the username already exists
+        if User.query.filter_by(username=data['username']).first():
+            return jsonify({"msg": "Username already exists!"}), 400
+
+        # Hash the password
+        hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
+        # Create new user and save to the database
+        new_user = User(username=data['username'], password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({"msg": "User registered successfully."}), 200
+
+    return render_template('index.html')
+
 
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
@@ -49,29 +54,27 @@ def login():
     data = request.get_json()
     user = User.query.filter_by(username=data['username']).first()
 
-    if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity=user.id)
-        return jsonify({"msg": "Login successful", "access_token": access_token}), 200
-    else:
-        return jsonify({"msg": "Invalid credentials"}), 401
+    #if user and bcrypt.check_password_hash(user.password, data['password']):
+        #access_token = create_access_token(identity=user.id)
+        #return jsonify({"msg": "Login successful", "access_token": access_token}), 200
+    #else:
+        #return jsonify({"msg": "Invalid credentials"}), 401
 
 # Protected route to get the current user
 @app.route('/api/profile', methods=['GET'])
-@jwt_required()
 def profile():
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-    return jsonify({"username": user.username}), 200
+    #current_user_id = get_jwt_identity()
+    #user = User.query.get(current_user_id)
+    #return jsonify({"username": user.username}), 200
+    pass
 
 # Logout endpoint
 @app.route('/api/logout', methods=['POST'])
-@jwt_required()
 def logout():
     return jsonify({"msg": "Logged out successfully!"}), 200
 
 # Summarization endpoint
 @app.route('/api/summarize', methods=['POST'])
-@jwt_required()  # Require authentication via JWT
 def summarize_notes():
     data = request.get_json()
     notes = data.get('notes', '')
@@ -89,9 +92,17 @@ def summarize_notes():
     return jsonify({'summary': summary})
 
 # Route to display the user homepage after successful registration
-@app.route('/userHomepage')
+@app.route('/user_homepage', methods=['GET', 'POST'])
 def user_homepage():
-    return render_template('userHomepage.html')
+    return render_template('user_homepage.html')
+
+@app.route('/notes-page', methods=['GET', 'POST'])
+def notes_page():
+    return render_template('notes-page.html')
+
+@app.route('/past-notes', methods=['GET', 'POST'])
+def past_notes():
+    return render_template('past-notes.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

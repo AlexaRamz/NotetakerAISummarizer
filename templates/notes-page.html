@@ -3,59 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="notes-page-styles.css">
+  <link rel="stylesheet" href="/static/notes-page-styles.css">
   <title>Easy Note</title>
 </head>
 <body>
   <div class="tool-bar">
     <button class="logo-button">
-      <img src="Icons/Logo.svg" alt="">
+      <img src="/static/Icons/Logo.svg" alt="">
     </button>
     <div class="tools" style="margin-left: 107px;">
       <div class="tool-button-group">
         <button class="tool-button tool-button-left">
-          <img src="Icons/arrow_left.svg" alt="">
+          <img src="/static/Icons/arrow_left.svg" alt="">
         </button>
         <button class="tool-button tool-button-right">
-          <img src="Icons/arrow_right.svg" alt="">
+          <img src="/static/Icons/arrow_right.svg" alt="">
         </button>
       </div>
       <button class="tool-button font-dropdown">
         <div id="font-name-text">Inter</div>
-        <img src="Icons/arrow_dropdown.svg" alt="">
+        <img src="/static/Icons/arrow_dropdown.svg" alt="">
       </button>
       <div class="font-size-selection">
         <button class="tool-button">
-          <img src="Icons/minus_icon.svg" alt="">
+          <img src="/static/Icons/minus_icon.svg" alt="">
         </button>
         <p>12</p>
         <button class="tool-button">
-          <img src="Icons/plus_icon.svg" alt="">
+          <img src="/static/Icons/plus_icon.svg" alt="">
         </button>
       </div>
       <div class="tool-button-group">
         <button class="tool-button tool-button-left">
-          <img src="Icons/bold_text_icon.svg" alt="">
+          <img src="/static/Icons/bold_text_icon.svg" alt="">
         </button>
         <button class="tool-button tool-button-center">
-          <img src="Icons/italics_text_icon.svg" alt="">
+          <img src="/static/Icons/italics_text_icon.svg" alt="">
         </button>
         <button class="tool-button tool-button-right">
-          <img src="Icons/underline-text-icon.svg" alt="">
+          <img src="/static/Icons/underline-text-icon.svg" alt="">
         </button>
       </div>
       <div class="tool-button-container">
         <button class="tool-button" id="text-color-button">
-          <img src="Icons/text_color_icon.svg" alt="">
+          <img src="/static/Icons/text_color_icon.svg" alt="">
         </button>
         <button class="tool-button" id="highlight-color-button">
-          <img src="Icons/highlighter_icon.svg" alt="">
+          <img src="/static/Icons/highlighter_icon.svg" alt="">
         </button>
         <button class="tool-button">
-          <img src="Icons/bullet_points_icon.svg" alt="">
+          <img src="/static/Icons/bullet_points_icon.svg" alt="">
         </button>
         <button class="tool-button">
-          <img src="Icons/numbered_list_icon.svg" alt="">
+          <img src="/static/Icons/numbered_list_icon.svg" alt="">
         </button>
       </div>
     </div>
@@ -70,7 +70,7 @@
 
   <div class="summarize-pop-up" id="summarize-pop-up">
     <button class="popup-close-button" onclick="closeSummarizePopup()">
-      <img src="Icons/x_icon.svg" alt="">
+      <img src="/static/Icons/x_icon.svg" alt="">
     </button>
     <div class="summarize-heading">Summarize Text</div>
     <div class="summarize-tabs-container">
@@ -96,7 +96,7 @@
 
   <div class ="summarize-pop-up" id="final-summary-pop-up">
     <button class="popup-close-button" onclick="closeSummarizePopup()">
-      <img src="Icons/x_icon.svg" alt="">
+      <img src="/static/Icons/x_icon.svg" alt="">
     </button>
     <div class="summarize-heading">Summarize Text</div>
     <div class="summarize-tabs-container">
@@ -110,7 +110,7 @@
       <button class="primary-button" style="padding: 0px 22px;">Copy</button>
       <button class="primary-button" style="padding: 0px 22px; display: flex; gap: 6px">
         Save
-        <img src="Icons/book_icon.svg" alt="">
+        <img src="/static/Icons/book_icon.svg" alt="">
       </button>
     </div>
   </div>
@@ -125,10 +125,10 @@
   <div id="highlight-colors-menu">
     <button class="no-color-btn">
       None
-      <img src="Icons/x_icon.svg" alt="">
+      <img src="/static/Icons/x_icon.svg" alt="">
     </button>
     <div class="colors-container"></div>
   </div>
-  <script src="notes-page.js"></script>
+  <script src="/static/notes-page.js"></script>
 </body>
 </html>
