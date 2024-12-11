@@ -34,13 +34,13 @@
         </button>
       </div>
       <div class="tool-button-group">
-        <button class="tool-button tool-button-left">
+        <button class="tool-button tool-button-left" onclick="boldText()">
           <img src="/static/Icons/bold_text_icon.svg" alt="">
         </button>
-        <button class="tool-button tool-button-center">
+        <button class="tool-button tool-button-center" onclick="italicizeText()">
           <img src="/static/Icons/italics_text_icon.svg" alt="">
         </button>
-        <button class="tool-button tool-button-right">
+        <button class="tool-button tool-button-right" onclick="underlineText()">
           <img src="/static/Icons/underline-text-icon.svg" alt="">
         </button>
       </div>
@@ -59,10 +59,15 @@
         </button>
       </div>
     </div>
-    <button class="primary-button gradient-blue" style="margin-left: auto; margin-right: 37px" onclick="openSummarizePopup()">Summarize</button>
+    <button class="primary-button gradient-blue" onclick="openSummarizePopup()">Summarize</button>
   </div>
   <div class="document-container">
-    <h1>Title</h1>
+    <div class="note-header">
+      <textarea id="note-title-container" maxlength="40" placeholder="Title"></textarea>
+      <div class="horizontal-line"></div>
+    </div>
+    <div id="note-text-container" contenteditable="true"></div>
+    <!--<textarea id="note-text-container" maxlength="100000" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>-->
   </div>
 
   <!--Text Summarization Overlay and Popup-->
@@ -116,18 +121,18 @@
   </div>
 
   <!--Text Color Selection-->
-  <div id="text-colors-menu">
-    <div class="gray-colors-container"></div>
-    <div class="colors-container"></div>
+  <div id="text-colors-menu" class="hide">
+    <div class="colors-container" id="gray-colors-container"></div>
+    <div class="colors-container" id="colors-container"></div>
   </div>
 
   <!--Highlighter Color Selection-->
-  <div id="highlight-colors-menu">
+  <div id="highlight-colors-menu" class="hide">
     <button class="no-color-btn">
       None
       <img src="/static/Icons/x_icon.svg" alt="">
     </button>
-    <div class="colors-container"></div>
+    <div class="colors-container" id="highlight-colors-container"></div>
   </div>
   <script src="/static/notes-page.js"></script>
 </body>
