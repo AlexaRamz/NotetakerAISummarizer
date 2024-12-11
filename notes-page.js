@@ -6,7 +6,7 @@ colors = [
 
 grayColors = [
   '#000000', '#6A6A6A', '#A09E9E', '#C7C7C7', '#E9E7E7', '#FFFFFF'
-]
+];
 
 const colorsContainers = document.getElementsByClassName('colors-container');
 for (let container of colorsContainers) {
@@ -55,8 +55,9 @@ highlightColorButton.addEventListener('click', () => {
   }
 });
 
+// Initial content (for testing)
 textToSummarize = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-summaryText = "This is the summary of the text";
+summaryText = "This is the summary of the text.";
 
 overlay = document.getElementById("overlay");
 
@@ -66,12 +67,43 @@ summarizeText = document.getElementById("summarize-text");
 finalSummaryPopup = document.getElementById("final-summary-pop-up");
 finalSummaryText = document.getElementById("final-summary-text");
 
+// Function to open the Summarize popup
 function openSummarizePopup() {
-  showSelectedText();
+  // Show the summarize popup
   overlay.style.display = "block";
   summarizePopup.style.display = "flex";
+
+  // Get the notes text (assuming it's in an editable area or h1)
+  const notesText = document.querySelector('.document-container h1').innerText;
+
+  // Send the text to the backend for summarization
+  fetch('/summarize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ text: notesText })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.summary) {
+      // Populate the summary in the final summary pop-up
+      document.getElementById('final-summary-text').innerText = data.summary;
+      // Show the final summary popup
+      document.getElementById("final-summary-pop-up").style.display = "flex";
+      // Hide the summarize pop-up
+      document.getElementById("summarize-pop-up").style.display = "none";
+    } else {
+      alert("Error summarizing the text.");
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert("An error occurred while summarizing the text.");
+  });
 }
 
+// Function to close the Summarize popup
 function closeSummarizePopup() {
   overlay.style.display = "none";
   summarizePopup.style.display = "none";
@@ -81,6 +113,7 @@ function closeSummarizePopup() {
 const summarizePopupTabs = document.querySelectorAll('#summarize-pop-up .summarize-tab');
 const finalSummaryPopupTabs = document.querySelectorAll('#final-summary-pop-up .summarize-tab');
 
+// Add event listeners to handle tab changes in the popups
 summarizePopupTabs.forEach(button => {
   button.addEventListener('click', () => {
     summarizePopupTabs.forEach(btn => btn.classList.remove('active'));
@@ -95,6 +128,7 @@ finalSummaryPopupTabs.forEach(button => {
   });
 });
 
+// Functions to manage different tabs for the summarize popup
 function showSelectedText() {
   summarizeText.innerText = textToSummarize;
 }
@@ -105,19 +139,6 @@ function showAllText() {
 
 function showPasteTextbox() {
   summarizeText.innerText = textToSummarize;
-}
-
-function goToFinalSummary() {
-  // Send the request to the backend
-  fetchSummary(textToSummarize);
-}
-
-function showSummary() {
-  finalSummaryText.innerText = summaryText;
-}
-
-function showOriginalText() {
-  finalSummaryText.innerText = textToSummarize;
 }
 
 // Function to fetch summary from the Python backend

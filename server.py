@@ -4,10 +4,8 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
-from summarizer import Summarizer
+from notesummarizer import app
 
-# Initialize app and extensions
-app = Flask(__name__, static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 db = SQLAlchemy(app)
@@ -18,9 +16,6 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
-
-# Initialize the Summarizer model
-summarizer_model = Summarizer()
 
 # Create the database
 with app.app_context():
@@ -73,24 +68,6 @@ def profile():
 def logout():
     return jsonify({"msg": "Logged out successfully!"}), 200
 
-# Summarization endpoint
-@app.route('/api/summarize', methods=['POST'])
-def summarize_notes():
-    data = request.get_json()
-    notes = data.get('notes', '')
-    ratio = data.get('ratio', 0.2)  # Default ratio is 20%
-
-    if not notes:
-        return jsonify({'error': 'No notes provided'}), 400
-
-    if not (0.0 < ratio <= 1.0):
-        return jsonify({'error': 'Invalid ratio. Must be between 0 and 1'}), 400
-
-    # Generate the summary using the Summarizer model
-    summary = summarizer_model(notes, ratio)
-    
-    return jsonify({'summary': summary})
-
 # Route to display the user homepage after successful registration
 @app.route('/user_homepage', methods=['GET', 'POST'])
 def user_homepage():
@@ -109,4 +86,4 @@ def settings():
     return render_template('settings.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1', port=5000)
