@@ -24,7 +24,45 @@
     </style>
 </head>
 <body>
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand bg-light navbar-light justify-content-right fixed-top">
+        <div class="container-fluid">
+            <span class="navbar-text" style="font-size: 2rem; font-weight: bold;">EasyNote</span>
+            <ul class="navbar-nav d-flex">
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">Settings</a>
+                </li>
+                <!-- Sign In link triggers modal -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="signoutLink" data-bs-toggle="modal" data-bs-target="#loginModal">Sign Out</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="aboutlink" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">
+                        About EasyNote
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                <div class="modal-body">
+                    <p>
+                        EasyNote is an easy-to-use application designed to make note-taking easier.
+                        This application is will provide you the means to type, organize, and even summarize
+                        your notes with a simple click of a button!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container text-center">
         <div class="card shadow-sm p-4">
             <h1 class="card-title mb-4">Welcome to EasyNote!</h1>
