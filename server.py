@@ -9,6 +9,7 @@ from flask_jwt_extended import create_access_token
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SECRET_KEY'] = 'publickeysareB4Dpractice'
 
 model = Summarizer()
 
@@ -98,13 +99,6 @@ def login():
     else:
         return jsonify({"msg": "Invalid credentials"}), 401
 
-# Protected route to get the current user
-@app.route('/api/profile', methods=['GET'])
-def profile():
-    #current_user_id = get_jwt_identity()
-    #user = User.query.get(current_user_id)
-    #return jsonify({"username": user.username}), 200
-    pass
 
 # Route to display the user homepage after successful registration
 @app.route('/user_homepage', methods=['GET', 'POST'])

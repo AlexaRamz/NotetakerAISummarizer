@@ -20,4 +20,4 @@ def summarize_notes(notes: str, ratio: float = 0.2) -> str:
     # Generate the summary using the model
     summary = model(text, ratio=0.2)
     print(summary)
-    #return summary
+    return summary
