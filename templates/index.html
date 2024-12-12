@@ -156,29 +156,29 @@
     
     <script>
        // Show Register Form when clicking "Register"
-       document.getElementById('showRegister').addEventListener('click', function(event) {
-    event.preventDefault();
-    const modalTitle = document.getElementById('registerModalLabel');
-    const modalBody = document.getElementById('modalBody');
+        document.getElementById('showRegister').addEventListener('click', function(event) {
+        event.preventDefault();
+        const modalTitle = document.getElementById('registerModalLabel');
+        const modalBody = document.getElementById('modalBody');
 
-    modalTitle.innerHTML = 'Register';
-    modalBody.innerHTML = `
-        <form id="registerForm">
-            <div class="mb-3">
-                <label for="newUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="newUsername" required>
-            </div>
-            <div class="mb-3">
-                <label for="newPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="newPassword" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Register</button>
-        </form>
-    `;
+        modalTitle.innerHTML = 'Register';
+        modalBody.innerHTML = `
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="newUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="newUsername" required>
+                </div>
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="newPassword" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        `;
 
     // Reattach the event listener to the dynamically generated registration form
     document.getElementById('registerForm').addEventListener('submit', function(event) {
@@ -251,18 +251,18 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            fetch('http://localhost:5000/login', {
+            fetch('/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username, password, login: true})
             })
             .then(response => response.json())
             .then(data => {
                 if (data.access_token) {
                     localStorage.setItem('authToken', data.access_token);
-                    window.location.href = 'templates/user_homepage.html';
+                    window.location.href = '/user_homepage';
                 } else {
                     alert(data.msg || 'Login failed.');
                 }

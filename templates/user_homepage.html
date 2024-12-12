@@ -34,7 +34,7 @@
                 </li>
                 <!-- Sign In link triggers modal -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="signoutLink" data-bs-toggle="modal" data-bs-target="#loginModal">Sign Out</a>
+                    <a class="nav-link" href="#" id="signoutLink" onclick="signOut()" data-bs-target="#loginModal">Sign Out</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="aboutlink" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
@@ -72,5 +72,12 @@
             </div>
         </div>
     </div>
+    <script>
+        function signOut(){
+            localStorage.removeItem('authToken');
+            //Redirect to login or home page after sign-out
+            window.location.href = '/'; // Redirecting to the login page
+        }
+    </script>
 </body>
 </html>
