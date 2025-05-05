@@ -1,3 +1,15 @@
+:root {
+  --theme-gradient-light: #A74CFB;
+  --theme-gradient-dark: #5E2593;
+  --document-color: #FFFFFF;
+  --toolbar-bg-color: #1E1E1E;
+  --tool-button-color: #353535;
+  --tool-button-color-hovered: #494949;
+  --tool-button-color-selected: #6F6F6F;
+  --tool-button-text-color: #E0E0E0;
+  --main-bg-color: #3E3E3E;
+}
+
 *{
   font-family: Rubik, sans-serif;
 }
@@ -8,7 +20,7 @@ html {
 }
 
 body{
-  background-color: #A5A5A5;
+  background-color: var(--main-bg-color);
   margin: 0px;
 }
 
@@ -26,7 +38,7 @@ button {
 
 /* Tool bar */
 .tool-bar {
-  background-color: #E3E3E3;
+  background-color: var(--toolbar-bg-color);
   height: fit-content;
   width: 100%;
   display: flex;
@@ -41,15 +53,16 @@ button {
 }
 
 .tool-button {
-  background-color: none;
-  border: 2px solid #A5A5A5; 
+  background-color: var(--tool-button-color);
+  /* border: 2px solid var(--tool-button-color); */
   border-radius: 12px;
   height: 38px;
   width: 38px;
+  color: var(--tool-button-text-color);
 }
 
 .tool-button.active {
-  background-color: #BCBCBC;
+  background-color: var(--tool-button-color-selected);
 }
 
 .tool-button img {
@@ -58,7 +71,7 @@ button {
 }
 
 .tool-button:hover {
-  background-color: #C9C9C9;
+  background-color: var(--tool-button-color-hovered);
 }
 
 .tools {
@@ -66,7 +79,7 @@ button {
   gap: 18px 26px;
   align-items: center;
   flex-wrap: wrap;
-  margin: 17px 0;
+  margin: 16px 0;
   margin-right: 15px;
 }
 
@@ -78,7 +91,7 @@ button {
 
 .tool-button-group {
   display:flex;
-  gap: 0px;
+  gap: 2px;
 }
 
 .tool-button-left {
@@ -115,7 +128,7 @@ button {
 .primary-button {
   width: fit-content;
   height: 42px;
-  background-image: linear-gradient(to right, #00B8D0, #005E6A);
+  background-image: linear-gradient(to right, var(--theme-gradient-light), var(--theme-gradient-dark));
   border-radius: 16px;
   padding: 0 32px;
 
@@ -137,6 +150,7 @@ button {
 
 .font-size-selection p {
   width: 35px;
+  color: var(--tool-button-text-color);
 }
 
 /* Text summarization pop-up*/
@@ -258,7 +272,7 @@ button {
   width: 22.5px;
   height: 22.5px;
   border-radius: 50%; 
-  background: #00B8D0;
+  background: var(--theme-gradient-light);
   cursor: pointer;
 }
 
@@ -267,12 +281,13 @@ button {
   height: 22.5px;
   border-radius: 50%;
   border-width: 0px;
-  background: #00B8D0;
+  background: var(--theme-gradient-light);
   cursor: pointer;
 }
 
 /* Color Selection */
 #text-colors-menu, #highlight-colors-menu {
+  display: none;
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -319,17 +334,12 @@ button {
   margin-bottom: 10px;
 }
 
-.show {display: block;}
-
-.hide {display: none;}
-
-
 /* Document */
 .document-container {
   margin-left: auto;
   margin-right: auto;
   margin-top: 18px; 
-  background-color: white;
+  background-color: var(--document-color);
   max-width: 750px;
   height: auto;
   padding: 39px;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/notes-page-styles.css">
+  <link rel="stylesheet" href="/static/notes-page-styles-dark.css">
   <title>Easy Note</title>
 </head>
 <body>
@@ -73,18 +73,19 @@
   <!--Text Summarization Overlay and Popup-->
   <div id="overlay"></div>
 
-  <div class="summarize-pop-up" id="summarize-pop-up">
+  <div class="summarize-popup" id="summarize-popup">
     <button class="popup-close-button" onclick="closeSummarizePopup()">
       <img src="/static/Icons/x_icon.svg" alt="">
     </button>
     <div class="summarize-heading">Summarize Text</div>
     <div class="summarize-tabs-container">
-      <button class="summarize-tab" onclick="showSelectedText()">Selected Text</button>
+      <button class="summarize-tab" id="selected-text-tab" onclick="showSelectedText()">Selected Text</button>
       <button class="summarize-tab" onclick="showAllText()">All Text</button>
       <button class="summarize-tab" onclick="showPasteTextbox()">Paste text</button>
     </div>
     <div class="summarize-text-container">
       <div id="fading-overlay"></div>
+      <div id="paste-text-container" contenteditable="true"></div>
       <div id="summarize-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
     </div>
     <div class="summary-length-slider-container">
@@ -96,20 +97,21 @@
         <div>30%</div>
       </div>
     </div>
-    <button class="primary-button" style="margin-top: auto; margin-bottom: 25px;" onclick="goToFinalSummary()">Summarize</button>
+    <button class="primary-button" style="margin-top: auto; margin-bottom: 25px;" onclick="goToSummary()">Summarize</button>
   </div>
 
-  <div class ="summarize-pop-up" id="final-summary-pop-up">
+  <div class ="summarize-popup" id="final-summary-popup">
     <button class="popup-close-button" onclick="closeSummarizePopup()">
       <img src="/static/Icons/x_icon.svg" alt="">
     </button>
-    <div class="summarize-heading">Summarize Text</div>
+    <div class="summarize-heading">Your Summary</div>
     <div class="summarize-tabs-container">
-      <button class="summarize-tab">Text</button>
-      <button class="summarize-tab">Summary</button>
+      <button class="summarize-tab" onclick="showOriginalText()">Text</button>
+      <button class="summarize-tab" id="summary-text-tab" onclick="showFinalSummary()">Summary</button>
     </div>
-    <div class="final-summary-text-container" id="final-summary-text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <div class="summarize-text-container">
+      <div id="fading-overlay"></div>
+      <div id="final-summary-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
     </div>
     <div style="display: flex; gap: 23px; margin-top: auto; margin-bottom: 25px;">
       <button class="primary-button" style="padding: 0px 22px;">Copy</button>
@@ -121,13 +123,13 @@
   </div>
 
   <!--Text Color Selection-->
-  <div id="text-colors-menu" class="hide">
+  <div id="text-colors-menu">
     <div class="colors-container" id="gray-colors-container"></div>
     <div class="colors-container" id="colors-container"></div>
   </div>
 
   <!--Highlighter Color Selection-->
-  <div id="highlight-colors-menu" class="hide">
+  <div id="highlight-colors-menu">
     <button class="no-color-btn">
       None
       <img src="/static/Icons/x_icon.svg" alt="">
