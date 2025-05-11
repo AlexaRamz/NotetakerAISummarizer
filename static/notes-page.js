@@ -1,3 +1,6 @@
+
+/* COLOR SELECTION */
+
 colors = [
   '#FF9797', '#FFC76D', '#FFFF81', '#A6FF7F', '#9DFFFF', '#9BDCFF', '#ADB4FF', '#EE99FF', '#FFB0F3', '#FF0000',
   '#FF9D00', '#FFFF00', '#4DFF00', '#00FFFF', '#00A6FF', '#1E00FF', '#D400FF', '#FF00D9', '#C60000', '#C37800',
@@ -13,19 +16,23 @@ const colorsContainer = document.getElementById('colors-container');
 const highlightColorsContainer = document.getElementById('highlight-colors-container');
 const grayColorsContainer = document.getElementById('gray-colors-container');
 
-function addColorButton(color, container) {
+function addColorButton(color, container, colorActionHandler) {
   const button = document.createElement('button');
   button.style.backgroundColor = color;
   if (color === "#FFFFFF") {
     button.style.border = 'solid 2px';
     button.style.borderColor = '#C9C9C9';
   }
+
+  button.addEventListener('mousedown', () => {
+    colorActionHandler(color);
+  });
   container.appendChild(button);
 }
 
 for (let i = 0; i < colors.length; i++) {
-  addColorButton(colors[i], colorsContainer);
-  addColorButton(colors[i], highlightColorsContainer);
+  addColorButton(colors[i], colorsContainer, colorText);
+  addColorButton(colors[i], highlightColorsContainer, highlightText);
 }
 
 for (let i = 0; i < grayColors.length; i++) {
@@ -82,6 +89,9 @@ highlightColorButton.addEventListener('click', () => {
     highlightColorButton.classList.remove('active');
   }
 });
+
+
+/* TEXT SUMMARIZATION */
 
 // Global Variables for Summarize Pop-up
 const summarizeText = document.getElementById("summarize-text");
@@ -221,4 +231,120 @@ function showOriginalText() {
 
 function showFinalSummary() {
   finalSummaryText.innerText = summaryText;
+}
+
+
+/* TEXT CUSTOMIZATION */
+
+function colorText(color)
+{
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString();
+
+  // Create a document fragment to hold the modified text
+  const fragment = document.createDocumentFragment();
+
+  // Split the text into characters and create spans
+  for (const char of selectedText) {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.color = color; // Set text color
+    fragment.appendChild(span);
+  }
+
+  // Replace the selected text with the modified fragment
+  range.deleteContents();
+  range.insertNode(fragment);
+}
+
+function highlightText(color)
+{
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString();
+
+  // Create a document fragment to hold the modified text
+  const fragment = document.createDocumentFragment();
+
+  // Split the text into characters and create spans
+  for (const char of selectedText) {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.backgroundColor = color; // Set text color
+    fragment.appendChild(span);
+    /*const parentNode = characterNode.parentNode;
+    if (parentNode.tagName !== 'SPAN') {
+      
+    }*/
+  }
+
+  // Replace the selected text with the modified fragment
+  range.deleteContents();
+  range.insertNode(fragment);
+}
+
+function boldText()
+{
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString();
+
+  // Create a document fragment to hold the modified text
+  const fragment = document.createDocumentFragment();
+
+  // Split the text into characters and create spans
+  for (const char of selectedText) {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.fontWeight = "bold"; // Set bold text
+    fragment.appendChild(span);
+  }
+
+  // Replace the selected text with the modified fragment
+  range.deleteContents();
+  range.insertNode(fragment);
+}
+
+function italicizeText()
+{
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString();
+
+  // Create a document fragment to hold the modified text
+  const fragment = document.createDocumentFragment();
+
+  // Split the text into characters and create spans
+  for (const char of selectedText) {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.fontStyle = "italic"; // Set bold text
+    fragment.appendChild(span);
+  }
+
+  // Replace the selected text with the modified fragment
+  range.deleteContents();
+  range.insertNode(fragment);
+}
+
+function underlineText()
+{
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString();
+
+  // Create a document fragment to hold the modified text
+  const fragment = document.createDocumentFragment();
+
+  // Split the text into characters and create spans
+  for (const char of selectedText) {
+    const tagElement = document.createElement('u');
+    tagElement.textContent = char;
+    fragment.appendChild(tagElement);
+  }
+
+  // Replace the selected text with the modified fragment
+  range.deleteContents();
+  range.insertNode(fragment);
 }
