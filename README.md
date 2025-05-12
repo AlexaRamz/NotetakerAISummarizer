@@ -1,7 +1,7 @@
 # EasyNote
-This note-taking web application made for students integrates an AI Natural Language Processing (NLP) API, allowing users to generate concise summaries of their notes to any length. We created this as our final project for UCI's Informatics 133 course (User Interaction Software).
+This note-taking web application made for students integrates an AI Natural Language Processing (NLP) library, allowing users to generate concise summaries of their notes to any length. We created this as our final project for UCI's Informatics 133 course (User Interaction Software).
 
-[![Video Thumbnail](demo/easynote_thumbnail.png)](https://drive.google.com/file/d/1VdJdoWqIDnCrCPNyQ7ba6TvEcUaJH7H2/view?usp=sharing)
+![Project Thumbnail](demo/easynote_thumbnail.png)
 
 ## Features
 Our note-taking page currently allows users to type out notes and customize selected text by
@@ -18,11 +18,16 @@ You can view the UI concept and different iterations of our note-taking page in 
 ## How to Use
 To launch the application:
 1. Clone this repository.
-2. Download any dependencies:
-    - numpy
-    - PyTorch
-    - Transformers
-3. Write "server.py" in the terminal (make sure you are in the same folder as the program)
+2. Install dependencies:
+    - Flask
+    - Flask-SQLAlchemy
+    - Flask-Bcrypt
+    - Flask-JWT-Extended
+    - bert-extractive-summarizer, which we're using for AI text summarization. This can installed with ```pip install bert-extractive-summarizer```. You might also need to install:
+        - PyTorch
+        - transformers
+        - numpy
+3. Run "server.py". The first time you run the server, it may take some time as the BERT model is being downloaded and loaded into memory.
 4. When you see the localhost IP address (127.0.0.1:5000), click the IP address or type "127.0.0.1:5000".
-5. Login or Register
+5. Click Login and then Register to create a new account. User credentials are stored in a local SQLite database file (users.db).
 
