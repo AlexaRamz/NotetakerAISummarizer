@@ -135,19 +135,37 @@ function closeSummarizePopup() {
   finalSummaryPopup.style.display = "none";
 }
 
+function openFinalSummaryPopup() {
+  finalSummaryPopup.style.display = "flex";
+
+  // Switch to the summary tab
+  finalSummaryPopupTabs.forEach(btn => btn.classList.remove('active'));
+  summaryTextTab.classList.add('active')
+
+  showFinalSummary() 
+}
+
+/* Ratio slider */
+const ratioSliderInput = document.getElementById("ratio-slider");
+const ratioAmountDiv = document.getElementById("ratio-amount");
+
+ratioSliderInput.addEventListener("input", function() {
+  ratioAmountDiv.textContent = ratioSliderInput.value + "%";
+}, false);
+
 // Function to begin summarizing. If successful, leads to a pop-up with the final summary
 function goToSummary() {
   // Show the loading message
   summarizeText.innerText = "Summarizing... Please wait.";
+  const textRatio = document.getElementById("ratio-slider").value / 100;
 
-  /*
   // Send the text to the backend for summarization
   fetch('/notes-page', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ notes: notesText, ratio: 0.2 }) // Send the notes text to be summarized
+    body: JSON.stringify({ notes: notesText, ratio: textRatio}) // Send the notes text to be summarized
   })
   .then(response => response.json())
   .then(data => {
@@ -156,12 +174,10 @@ function goToSummary() {
     if (data.summary) {
       const formattedSummary = data.summary.replace(/\n/g, '<br>');
       
-      // Populate the summary in the final summary pop-up
-      finalSummaryText.innerText = formattedSummary;
+      // Save the final summary text
+      summaryText = formattedSummary;
       
-      // Hide the summarize pop-up and show the final summary pop-up
-      summarizePopup.style.display = "none";
-      finalSummaryPopup.style.display = "flex";
+      openFinalSummaryPopup()
     } else {
       // Handle case when no summary is returned
       summarizeText.innerText = "Error summarizing the text.";
@@ -172,18 +188,6 @@ function goToSummary() {
     console.error('Error:', error);
     summarizeText.innerText = "An error occurred while summarizing.";
   });
-  */
-
-  // Switch to the Summary Text tab
-  finalSummaryPopupTabs.forEach(btn => btn.classList.remove('active'));
-  summaryTextTab.classList.add('active')
-
-  // Populate the summary in the final summary pop-up
-  summaryText = finalSummaryText.innerText = "This would show the final summary";
-      
-  // Hide the summarize pop-up and show the final summary pop-up
-  summarizePopup.style.display = "none";
-  finalSummaryPopup.style.display = "flex";
 }
 
 // Event listeners for tab switching in the pop-ups (indicate the currently selected tab)

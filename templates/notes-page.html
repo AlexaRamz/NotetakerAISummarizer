@@ -90,11 +90,11 @@
     </div>
     <div class="summary-length-slider-container">
       <div class="slidecontainer">
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        <input id="ratio-slider" type="range" min="0" max="100" value="50" class="slider" id="myRange">
       </div>
       <div style="display: flex; justify-content: space-between; margin-top: 5px;">
         <div>Length</div>
-        <div>30%</div>
+        <div id="ratio-amount">50%</div>
       </div>
     </div>
     <button class="primary-button" style="margin-top: auto; margin-bottom: 25px;" onclick="goToSummary()">Summarize</button>
@@ -106,7 +106,7 @@
     </button>
     <div class="summarize-heading">Your Summary</div>
     <div class="summarize-tabs-container">
-      <button class="summarize-tab" onclick="showOriginalText()">Text</button>
+      <button class="summarize-tab" onclick="showOriginalText()">Original</button>
       <button class="summarize-tab" id="summary-text-tab" onclick="showFinalSummary()">Summary</button>
     </div>
     <div class="summarize-text-container">

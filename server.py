@@ -1,8 +1,6 @@
-from flask import Flask, request, jsonify, redirect, url_for, render_template
-from flask_login import UserMixin
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_wtf.csrf import CSRFProtect
 from notesummarizer import summarize_notes
 from summarizer import Summarizer
 from flask_jwt_extended import create_access_token
@@ -68,6 +66,7 @@ def home():
 @app.route('/notes-page', methods=['GET', 'POST'])
 def note_page():
     if request.method == 'POST':
+        print("Got post request")
         # If a POST request is made, handle summarization
         data = request.get_json()
         notes = data.get('notes', '')
@@ -80,7 +79,7 @@ def note_page():
             return jsonify({'error': 'Invalid ratio. Must be between 0 and 1'}), 400
         
         # Generate the summary using the model
-        summary = model(notes, ratio)
+        summary = model(notes, ratio=ratio)
         print("The summary: ", summary)
         return jsonify({'summary': summary})
     
